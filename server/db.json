@@ -1,0 +1,19 @@
+{
+  "Users": [
+    {
+      "id": 1,
+      "name": "Pedro",
+      "lasName": "Lopez",
+      "email": "pedro@gamil.com",
+      "password": "12345"
+
+    },
+    {
+      "id": 2,
+      "name": "Pablo",
+      "lasName": "Ramirez",
+      "email": "pablo@gamil.com",
+      "password": "12345"
+    }
+  ]
+}
