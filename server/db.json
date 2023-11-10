@@ -1,19 +1,25 @@
 {
-  "Users": [
+  "users": [
     {
       "id": 1,
       "name": "Pedro",
-      "lasName": "Lopez",
-      "email": "pedro@gamil.com",
+      "lastName": "Lopez",
+      "email": "pedro@gmail.com",
       "password": "12345"
-
     },
     {
       "id": 2,
       "name": "Pablo",
-      "lasName": "Ramirez",
-      "email": "pablo@gamil.com",
+      "lastName": "Ramirez",
+      "email": "pablo@gmail.com",
       "password": "12345"
+    },
+    {
+      "name": "Leydi Yaquelin",
+      "lastName": "Mamani Aro",
+      "email": "leydiaro4@gmail.com",
+      "password": "3454",
+      "id": 3
     }
   ]
 }

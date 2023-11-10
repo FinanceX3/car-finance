@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent {
-
+  title = 'car-finance';
+  options = [
+    {path: '/home', title: 'Home'},
+    {path: '/store/bundles', title: 'Historial'},
+  ]
 }
