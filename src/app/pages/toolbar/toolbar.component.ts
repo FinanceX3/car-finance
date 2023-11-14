@@ -8,7 +8,8 @@ import { Component } from '@angular/core';
 export class ToolbarComponent {
   title = 'car-finance';
   options = [
-    {path: '/home', title: 'Home'},
+    {path: '/navigation/home', title: 'Home'},
     {path: '/store/bundles', title: 'Historial'},
+    {path: '/navigation/list-cars', title: 'Cars'}
   ]
 }
