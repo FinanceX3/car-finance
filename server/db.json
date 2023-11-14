@@ -27,6 +27,13 @@
       "email": "angievalverdesalazar123@gmail.com",
       "password": "123456",
       "id": 4
+    },
+    {
+      "name": "kristel",
+      "lastName": "flores",
+      "email": "kristel.flores@gmail.com",
+      "password": "gatita",
+      "id": 5
     }
   ]
 }
