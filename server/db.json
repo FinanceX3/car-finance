@@ -21,5 +21,72 @@
       "password": "3454",
       "id": 3
     }
+  ],
+  "cars": [
+    {
+      "id": 1,
+      "brand": "Toyota",
+      "model": "Camry",
+      "year": 2022,
+      "color": "Red",
+      "price": 25000,
+      "fuel_type": "Gasoline",
+      "engine_capacity": "2.5L",
+      "transmission": "Automatic",
+      "seating_capacity": 5,
+      "image": "https://example.com/toyota_camry_image.jpg"
+    },
+    {
+      "id": 2,
+      "brand": "Honda",
+      "model": "Civic",
+      "year": 2021,
+      "color": "Blue",
+      "price": 22000,
+      "fuel_type": "Gasoline",
+      "engine_capacity": "2.0L",
+      "transmission": "CVT",
+      "seating_capacity": 5,
+      "image": "https://example.com/honda_civic_image.jpg"
+    },
+    {
+      "id": 3,
+      "brand": "Ford",
+      "model": "Mustang",
+      "year": 2023,
+      "color": "Black",
+      "price": 45000,
+      "fuel_type": "Gasoline",
+      "engine_capacity": "5.0L V8",
+      "transmission": "Manual",
+      "seating_capacity": 4,
+      "image": "https://example.com/ford_mustang_image.jpg"
+    },
+    {
+      "id": 4,
+      "brand": "Chevrolet",
+      "model": "Equinox",
+      "year": 2022,
+      "color": "Silver",
+      "price": 30000,
+      "fuel_type": "Gasoline",
+      "engine_capacity": "1.5L Turbo",
+      "transmission": "Automatic",
+      "seating_capacity": 5,
+      "image": "https://example.com/chevrolet_equinox_image.jpg"
+    },
+    {
+      "id": 5,
+      "brand": "Nissan",
+      "model": "Altima",
+      "year": 2021,
+      "color": "White",
+      "price": 26000,
+      "fuel_type": "Gasoline",
+      "engine_capacity": "2.5L",
+      "transmission": "CVT",
+      "seating_capacity": 5,
+      "image": "https://example.com/nissan_altima_image.jpg"
+    }
   ]
 }
