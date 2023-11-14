@@ -8,6 +8,7 @@ import {UserService} from "../../services/user.service";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit{
 
   formLogin : FormGroup
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit{
 
 
   ngOnInit(): void {
-    console.log("Hello this is login design")
+    console.log("Hello this is login design this was completed by user x")
   }
 
 
