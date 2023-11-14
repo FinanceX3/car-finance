@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
+
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,33 @@ import {UserService} from "../../services/user.service";
 })
 export class LoginComponent implements OnInit{
 
+  formLogin : FormGroup
+
+  constructor(private formBuilder: FormBuilder,
+              private _userService:UserService) {
+
+    this.formLogin = this.formBuilder.group({
+      email:['', [Validators.required, Validators.email]],
+      password:['', Validators.required]
+    })
+
+  }
+
 
   ngOnInit(): void {
+    console.log("Hello this is login design")
   }
+
+
+  onLogin(){
+
+    if(this.formLogin.valid){
+      this._userService.login(this.formLogin.get("email")?.value, this.formLogin.get("password")?.value)
+
+    }else{
+      alert("Illegal arguments")
+    }
+  }
+
+
 }
