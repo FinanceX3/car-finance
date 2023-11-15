@@ -9,7 +9,7 @@ export class ToolbarComponent {
   title = 'car-finance';
   options = [
     {path: '/navigation/home', title: 'Home'},
-    {path: '/store/bundles', title: 'Historial'},
+    {path: '/navigation/historial', title: 'Historial'},
     {path: '/navigation/list-cars', title: 'Cars'}
   ]
 }
