@@ -18,6 +18,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { CarsListComponent } from './pages/cars-list/cars-list.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     ToolbarComponent,
     FooterComponent,
     HomeComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    CarsListComponent
   ],
   imports: [
     BrowserModule,

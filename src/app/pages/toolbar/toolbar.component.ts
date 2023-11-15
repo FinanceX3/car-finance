@@ -10,5 +10,6 @@ export class ToolbarComponent {
   options = [
     {path: '/navigation/home', title: 'Home'},
     {path: '/navigation/historial', title: 'Historial'},
+    {path: '/navigation/list-cars', title: 'Cars'}
   ]
 }
