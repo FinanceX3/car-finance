@@ -8,7 +8,7 @@ import {CarsListComponent} from "./pages/cars-list/cars-list.component";
 import { PaymentPlanComponent } from './payment-plan/payment-plan.component';
 
 const routes: Routes = [
-  {path: '',redirectTo:'navigation/plan', pathMatch:'full'},
+  {path: '',redirectTo:'navigation/welcome', pathMatch:'full'},
   {path: 'navigation/welcome', component: WelcomeComponent},
   {path: 'navigation/login', component: LoginComponent},
   {path: 'navigation/home', component: HomeComponent},
