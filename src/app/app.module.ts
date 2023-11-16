@@ -19,6 +19,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { CarsListComponent } from './pages/cars-list/cars-list.component';
+import { PaymentPlanComponent } from './payment-plan/payment-plan.component';
 
 
 @NgModule({
@@ -44,7 +45,9 @@ import { CarsListComponent } from './pages/cars-list/cars-list.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    //Standalone Components
+    PaymentPlanComponent
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

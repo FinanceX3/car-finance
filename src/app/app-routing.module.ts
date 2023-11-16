@@ -5,14 +5,16 @@ import {LoginComponent} from "./pages/login/login.component";
 import {HomeComponent} from "./pages/home/home.component";
 import {WelcomeComponent} from "./pages/welcome/welcome.component";
 import {CarsListComponent} from "./pages/cars-list/cars-list.component";
+import { PaymentPlanComponent } from './payment-plan/payment-plan.component';
 
 const routes: Routes = [
-  {path: '',redirectTo:'navigation/welcome', pathMatch:'full'},
+  {path: '',redirectTo:'navigation/plan', pathMatch:'full'},
   {path: 'navigation/welcome', component: WelcomeComponent},
   {path: 'navigation/login', component: LoginComponent},
   {path: 'navigation/home', component: HomeComponent},
   {path: 'navigation/register', component: RegisterComponent},
   {path: 'navigation/list-cars', component: CarsListComponent},
+  {path: 'navigation/plan', component: PaymentPlanComponent}
 
 ];
 
