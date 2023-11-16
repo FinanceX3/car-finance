@@ -1,0 +1,120 @@
+<app-toolbar></app-toolbar>
+
+<div class="name-view">
+  <fa-icon style="font-size: 28px" [icon]="faUser"></fa-icon>
+  <h1 style="padding-left: 10px; font-weight: bold">  Bienvenido, {{name}}</h1>
+</div>
+<div class="add-data-table">
+  <div class="example-container">
+    <form [formGroup]="form">
+
+    <div style="display: flex;flex-wrap: wrap; justify-content: space-between">
+        <div class="data-input">
+          <div class="input-item">
+            <mat-label style="color: #001D86">Ingreso Mensual (S/.)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="ingresoMensual">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Precio Vehicular </mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="precioVehicular">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Cuota Inicial (%)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="cuotaInicial">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Cuota Final (%)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="cuotaFinal">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">TNA (%)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="tna">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Seguro Degravamen</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="seguroDegravamen">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Seguro Vehicular Anual (%)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="seguroVehicularAnual">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Fecha Contrato</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="fechaContrato">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Plazo (Meses)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="plazo">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Plazo de Gracia Total (Meses)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="plazoGraciaTotal">
+            </mat-form-field>
+          </div>
+
+          <div class="input-item">
+            <mat-label style="color: #001D86">Plazo de Gracia Parcial (Meses)</mat-label>
+            <mat-form-field style="border-radius: 5px;">
+              <input matInput placeholder="Ingrese dato" formControlName="plazoGraciaParcial">
+            </mat-form-field>
+          </div>
+        </div>
+    </div>
+    </form>
+
+
+  </div>
+
+  <div class="data-table-1">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="title">
+        <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="value" >
+        <mat-cell  *matCellDef="let element" class="center-text">
+           {{ element.porct ? 'S/.' + element.value : element.value + '%'}} </mat-cell>
+      </ng-container>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <br>
+    <button mat-raised-button color="primary">Calcular</button>
+  </div>
+
+
+</div>
+
+
+<app-footer></app-footer>
+
