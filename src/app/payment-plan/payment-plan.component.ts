@@ -63,7 +63,7 @@ export class PaymentPlanComponent {
       const annual_rate: number = this.convertNominalToEffectiveAnnualRate(rate_porcentage);
       return this.convertAnnualToMonthlyEffectiveRate(annual_rate);
     } else {
-      return rate_porcentage;
+      return this.convertAnnualToMonthlyEffectiveRate(rate_porcentage);
     }
   }
 
