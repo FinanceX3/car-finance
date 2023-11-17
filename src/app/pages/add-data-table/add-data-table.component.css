@@ -1,0 +1,63 @@
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.example-container mat-form-field {
+  width: 220px;
+}
+
+.example-container form {
+  margin-bottom: 20px;
+}
+
+.example-container form > * {
+  margin: 12px 0;
+}
+
+.example-container .mat-radio-button {
+  margin: 0 12px;
+}
+
+.example-form-fields {
+  display: flex;
+  align-items: flex-start;
+}
+
+.add-data-table{
+  padding: 0 0 0 8%;
+  display:flex;
+}
+
+.name-view{
+  padding: 1% 0 0 8%;
+  display: flex;
+}
+
+.data-input {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 80px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-item > * {
+  margin-bottom: 2px;
+}
+
+.data-values-1{
+  text-align: center;
+}
+
+
+.data-table-1 {
+  min-width: 475px;
+  padding: 4% 22% 0 22%;
+  align-items: center;
+  text-align: center;
+}
