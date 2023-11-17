@@ -27,6 +27,20 @@
       "email": "angievalverdesalazar123@gmail.com",
       "password": "123456",
       "id": 4
+    },
+    {
+      "name": "Willy",
+      "lastName": "Valentin Ricaldi",
+      "email": "admin",
+      "password": "123",
+      "id": 5
+    },
+    {
+      "name": "Willy David",
+      "lastName": "Valentin Ricaldi",
+      "email": "admin@email.com",
+      "password": "12345",
+      "id": 6
     }
   ],
   "cars": [
