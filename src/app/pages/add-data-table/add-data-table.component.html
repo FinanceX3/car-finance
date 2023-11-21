@@ -25,21 +25,33 @@
           </div>
 
           <div class="input-item">
-            <mat-label style="color: #001D86">Cuota Inicial (%)</mat-label>
+            <button mat-raised-button
+                    matTooltip="Es el porcentaje de la cuota inicial a pagar para acceder al crédito vehicular"
+                    aria-label="Button that displays a tooltip when focused or hovered over">
+              <mat-label style="color: #001D86">Cuota Inicial (%)</mat-label>
+            </button>
             <mat-form-field style="border-radius: 5px;">
               <input matInput placeholder="Ingrese dato" formControlName="cuotaInicial">
             </mat-form-field>
           </div>
 
           <div class="input-item">
+            <button mat-raised-button
+                    matTooltip="Es el porcentaje de la cuota final a pagar (cuoton)"
+                    aria-label="Button that displays a tooltip when focused or hovered over">
             <mat-label style="color: #001D86">Cuota Final (%)</mat-label>
+            </button>
             <mat-form-field style="border-radius: 5px;">
               <input matInput placeholder="Ingrese dato" formControlName="cuotaFinal">
             </mat-form-field>
           </div>
 
           <div class="input-item">
+            <button mat-raised-button
+                    matTooltip="La Tasa Nominal Anual, y es la tasa que se usa para calcular los pagos de interés del crédito vehícular."
+                    aria-label="Button that displays a tooltip when focused or hovered over">
             <mat-label style="color: #001D86">TNA (%)</mat-label>
+            </button>
             <mat-form-field style="border-radius: 5px;">
               <input matInput placeholder="Ingrese dato" formControlName="tna">
             </mat-form-field>
