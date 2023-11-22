@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 export class UserService{
 
   basePath=environment.serverBasePath;
-  url: string= `/users`
+  url: string= `/profiles`
 
   private resourcePath():string{
     return `${this.basePath}${this.url}`
@@ -37,13 +37,9 @@ export class UserService{
       .pipe(retry(2), catchError(this.handleError))
   }
 
-
   login(email:string, password:string){
-
     this.getAllUsers().subscribe((resource:any)=>{
-
       const user = resource.find((u:Users)=>u.email === email && u.password === password )
-
       if(user){
         alert("Welcome")
         this.router.navigate(["navigation/home"])
