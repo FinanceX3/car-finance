@@ -6,6 +6,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
 import { Decimal } from 'decimal.js';
+import {ActivatedRoute} from "@angular/router";
 
 export interface PeriodicElement {
   title: string;
@@ -21,7 +22,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {title: 'Cuota Final', porct: true, value: '0'},
   {title: 'Monto Del Préstamo', porct: true, value: '0'},
   {title: 'Importe Para Cuotas', porct: true, value: '0'},
-  {title: 'Saldo Capitalizado', porct: true, value: '0'},
+  {title: 'Saldo Capitalizado', porct: true, value: '15594.57'},
   {title: 'R (Cuotas Mensuales)', porct: true, value: '0'},
   {title: 'Valor Actual Saldo Final', porct: true, value: '0'},
   {title: 'Valor Cuota Extra', porct: true, value: '0'},
@@ -67,7 +68,11 @@ export class AddDataTableComponent implements OnInit{
   form: FormGroup = new FormGroup({ });
   form2: FormGroup = new FormGroup({ });
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
+
+
+
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -79,13 +84,13 @@ export class AddDataTableComponent implements OnInit{
       seguroDegravamen: [0.05, Validators.required],
       seguroVehicularAnual: [4.72, Validators.required],
       //fechaContrato: [ new FormControl(_moment([2017, 0, 1])), Validators.required],//input
-      plazo: [24, Validators.required],//input
+      plazo: ['24', Validators.required],//input
       plazoGraciaTotal: [1, Validators.required],//input
       plazoGraciaParcial: [2, Validators.required],//input
       tasaDescuentoCOK: [50, Validators.required],//input
       periodoCapitalizacion: ['Diaria', Validators.required],
       frecuenciaPago: ['30', Validators.required],
-      nDiasAnio: ['360', Validators.required],
+      nDiasAnio: new FormControl({ value: 360, disabled :true}),
       costesNotariales: [100, Validators.required],
       tipoPagoCostesNotariales: ['prestamo', Validators.required],
       costesRegistrales: [75, Validators.required],
@@ -112,6 +117,8 @@ export class AddDataTableComponent implements OnInit{
     this.dataSource[3].value = this.calculateCuotaFinal().toString();
     this.dataSource[4].value = this.calculateMontoPrestamo().toString();
     this.dataSource[5].value = this.calcuateImporteParaCuotas().toString();
+    //this.dataSource[6].value = this.calculateSaldoCapitalizado().toString();
+    this.dataSource[7].value = this.calculateRCuotasMensuales().toString();
 
 
 
@@ -135,6 +142,12 @@ export class AddDataTableComponent implements OnInit{
     })
 
     this.form2.valueChanges.subscribe(()=>{
+    })
+
+    this.route.params.subscribe( params => {
+      console.log(params)
+      const priceCar = +params['precio']
+      this.form.get('precioVehicular')?.setValue(priceCar);
     })
   }
 
@@ -160,12 +173,12 @@ export class AddDataTableComponent implements OnInit{
     'Saldo Inicial Para Cuota',
     'Intereses',
     'Cuota',
-    'Amortización',
+    'Gastos Administrativos',
     'Seguro Degravamen',
     'Seguro Vehicular',
     'GPS',
     'Portes',
-    'Gastos Administrativos',
+    'Amortización',
     'Saldo Final Para Cuota',
     'Flujo'
   ];
@@ -173,9 +186,11 @@ export class AddDataTableComponent implements OnInit{
   first_time = true;
 
   CalcularTabla(){
+    //this.calculateSaldoCapitalizado()
+
     const plan_meses = parseInt( this.form.get('plazo')?.value);
     let rows = plan_meses + 2;
-    let cols = 20
+    let cols = 21
 
     this.tableData = []
     //this.tableData[0] = [-1,-1,-1, this.fechaContrato.value?.format('DD/MM/YYYY') ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, this.calculateMontoPrestamo() ];
@@ -205,37 +220,37 @@ export class AddDataTableComponent implements OnInit{
     });
 
     for (let i = 1; i < rows; i++) {
-      const rowObject: { [key: string]: any } = {}
+      const rowObject: { [key: string]: any | number } = {}
       for (let j = 0; j < cols; j++) {
 
-        if(j == 0 && this.first_time){
-          if(!this.first_time){
-            this.tableData[i]['N°'] = i
-          } else
+        if(j == 0){
+          // if(!this.first_time){
+          //   this.tableData[i]['N°'] = i
+          // } else
           rowObject['N°'] = i
         }
 
-        else if(j == 1 && this.first_time) {
+        else if(j == 1) {
           const teaValue = this.calculateTEA();
           if (teaValue !== null && teaValue !== undefined) {
-            if(!this.first_time){
-              this.tableData[i]['TEA'] = (Number(teaValue).toFixed(2));
-            } else
+            // if(!this.first_time){
+            //   this.tableData[i]['TEA'] = (Number(teaValue).toFixed(2));
+            // } else
             rowObject['TEA'] = (Number(teaValue).toFixed(2));
           }
         }
 
-        else if(j == 2 && this.first_time) {
+        else if(j == 2) {
           const temValue = this.calculateTEM();
           if (temValue !== null && temValue !== undefined) {
-            if(!this.first_time){
-              this.tableData[i]['i\' = TEP = TEM'] = (Number(temValue).toFixed(2));
-            } else
+            // if(!this.first_time){
+            //   this.tableData[i]['i\' = TEP = TEM'] = (Number(temValue).toFixed(2));
+            // } else
             rowObject['i\' = TEP = TEM']= (Number(temValue).toFixed(2));
           }
         }
 
-        else if(j == 3 && this.first_time) {
+        else if(j == 3) {
 
           const fechaContratoValue = this.fechaContrato.value;
 
@@ -246,7 +261,7 @@ export class AddDataTableComponent implements OnInit{
           }
         }
 
-        else if(j == 4 && this.first_time) {
+        else if(j == 4) {
           const plazoGraciaTotalValue = parseInt(this.form.get('plazoGraciaTotal')?.value)
           const plazoGraciaParcialValue = parseInt(this.form.get('plazoGraciaParcial')?.value)
 
@@ -266,7 +281,7 @@ export class AddDataTableComponent implements OnInit{
           }
         }
 
-        else if(j == 5 && this.first_time) {
+        else if(j == 5) {
           const plan = parseInt(this.form.get('plazo')?.value);
           const cuotaFinal = parseFloat(this.dataSource[3].value);
           const tem = parseFloat(this.dataSource[1].value)/100;
@@ -278,13 +293,13 @@ export class AddDataTableComponent implements OnInit{
           }
         }
 
-        else if(j == 6 && this.first_time) {
+        else if(j == 6) {
           const saldoInicialCuotaFinal = rowObject['Saldo Inicial Cuota Final'] * -1;
           const tem = parseFloat(this.dataSource[1].value)/100;
           rowObject['Interes Cuota Final'] = ((saldoInicialCuotaFinal * tem)).toFixed(5)
         }
         //
-        else if(j == 7 && this.first_time) {
+        else if(j == 7) {
           const plan = parseInt(this.form.get('plazo')?.value);
           const saldoInicialCuotaFinal = parseFloat(rowObject['Saldo Inicial Cuota Final'])  * -1;
           const interesCuotaFinal = parseFloat(rowObject['Interes Cuota Final']);
@@ -297,41 +312,32 @@ export class AddDataTableComponent implements OnInit{
           }
         }
 
-        else if(j == 8 && this.first_time) {
+        else if(j == 8) {
           const seguroDegravamen = parseFloat(this.form.get('seguroDegravamen')?.value)/100;
           const saldoInicialCuotaFinal = rowObject['Saldo Inicial Cuota Final'];
           rowObject['Seguro Degravamen Cuota Final'] = (((saldoInicialCuotaFinal * seguroDegravamen)* -1)).toFixed(5)
         }
 
 
-        else if(j == 9  && this.first_time) {
+        else if(j == 9) {
             const res = (parseFloat(rowObject['Saldo Inicial Cuota Final']) - parseFloat(rowObject['Interes Cuota Final']) + parseFloat(rowObject['Amortización Cuota Final']))
             rowObject['Saldo Final Cuota Final'] = (res)
         }
 
+        //bad code
         else if(j == 10 ) {
           const plazo = parseInt(this.form.get('plazo')?.value);
           if(i == 1){
-            if(!this.first_time){
-              this.tableData[i]['Saldo Inicial Para Cuota'] =  parseFloat(this.dataSource[5].value).toFixed(5)
-            }
-            else {
-              rowObject['Saldo Inicial Para Cuota'] =  (parseFloat(this.dataSource[5].value)).toFixed(5)
-            }
+            rowObject['Saldo Inicial Para Cuota'] =  (parseFloat(this.dataSource[5].value)).toFixed(5)
           }
           else{
             if(i <= plazo){
-              if(!this.first_time){
-                this.tableData[i]['Saldo Inicial Para Cuota'] =  parseFloat(this.tableData[i-1]['Saldo Final Para Cuota']).toFixed(7)
-              } else
-              rowObject['Saldo Inicial Para Cuota'] =  (this.tableData[i-1]['Saldo Final Para Cuota']).toFixed(5)
+
+              rowObject['Saldo Inicial Para Cuota'] =  (this.tableData[i-1]['Saldo Final Para Cuota'])
             }
             else{
-              if(!this.first_time){
-                this.tableData[i]['Saldo Inicial Para Cuota'] = (0)
-              } else {
-                rowObject['Saldo Inicial Para Cuota'] = (0)
-              }
+
+              rowObject['Saldo Inicial Para Cuota'] = (0)
             }
           }
         }
@@ -339,12 +345,7 @@ export class AddDataTableComponent implements OnInit{
 
 
         else if(j == 11 ) {
-          if(!this.first_time){
-            this.tableData[i]['Intereses'] =  ((parseFloat(this.tableData[i]['Saldo Inicial Para Cuota'])* -1  * (parseFloat(this.dataSource[1].value)/100)).toFixed(9))
-          }
-          else{
-            rowObject['Intereses'] =((parseFloat(rowObject['Saldo Inicial Para Cuota'])* -1  * (parseFloat(this.dataSource[1].value)/100)).toFixed(7))
-          }
+          rowObject['Intereses'] =((parseFloat(rowObject['Saldo Inicial Para Cuota'])* -1  * (parseFloat(this.dataSource[1].value)/100)).toFixed(7))
         }
 
         else if(j == 12 ) {
@@ -359,11 +360,10 @@ export class AddDataTableComponent implements OnInit{
                 rowObject['Cuota'] =((parseFloat(rowObject['Intereses'])))
               }
               else {
-                if(!this.first_time && this.tableData[i]['P.G'] == 'S')
-                {
-                  this.tableData[i]['Cuota'] =  parseFloat(this.dataSource[7].value) * -1;
-                }
-                else rowObject['Cuota'] = 1
+
+                  rowObject['Cuota'] =  parseFloat(this.dataSource[7].value) * -1;
+
+
 
               }
             }
@@ -371,124 +371,125 @@ export class AddDataTableComponent implements OnInit{
         }
 
         else if(j == 13 ) {
-          const plazo = parseInt(this.form.get('plazo')?.value);
-          if(i <= plazo){
-            if(rowObject['P.G'] == 'T' || rowObject['P.G'] == 'P'){
-              rowObject['Amortización'] =(0)
-            }
-            else{
-              if(!this.first_time && this.tableData[i]['P.G'] == 'S'){
+          const gastosAdministrativos = parseFloat(this.form2.get('gastosAdministrativos')?.value) * -1;
+          rowObject['Gastos Administrativos'] = gastosAdministrativos
 
 
-                this.tableData[i]['Amortización'] =  (new Decimal(parseFloat(this.tableData[i]['Cuota'])- parseFloat(this.tableData[i]['Intereses']) - parseFloat(this.tableData[i]['Seguro Degravamen'])
-                  - parseFloat(this.tableData[i]['Seguro Degravamen Cuota Final']) - parseFloat(this.tableData[i]['Seguro Vehicular'])
-                  - parseFloat(this.tableData[i]['GPS']) - parseFloat(this.tableData[i]['Portes'])
-                  - parseFloat(this.tableData[i]['Gastos Administrativos'])).plus(0.1)).toFixed(2)
-              }
-              else{
-                rowObject['Amortización'] = 0;
-              }
-              // rowObject['Amortización'] =((parseFloat(rowObject['Cuota'])- parseFloat(rowObject['Intereses']) - parseFloat(rowObject['Seguro Degravamen']) - parseFloat(rowObject['Seguro Degravamen Cuota Final']) - parseFloat(rowObject['Seguro Vehicular'])).toFixed(2))
-            }
-          }
+
         }
 
         else if(j == 14) {
           const seguroDegravamen = parseFloat(this.form.get('seguroDegravamen')?.value)/100;
-          if(!this.first_time){
-            this.tableData[i]['Seguro Degravamen'] =((parseFloat(this.tableData[i]['Saldo Inicial Para Cuota'])) *-1 * seguroDegravamen).toFixed(2)
-          } else
+
           rowObject['Seguro Degravamen'] =((parseFloat(rowObject['Saldo Inicial Para Cuota'])) *-1 * seguroDegravamen)
         }
 
         else if(j == 15) {
           const precioVehicular = parseFloat(this.form.get('precioVehicular')?.value) * -1;
           const seguroVehicularMensual =  parseFloat(this.dataSourceGastosPeriodicos[0].value)/100;
-          if(!this.first_time){
-            this.tableData[i]['Seguro Vehicular'] =  ((precioVehicular * seguroVehicularMensual))
-          } else
+
           rowObject['Seguro Vehicular'] =  ((precioVehicular * seguroVehicularMensual))
         }
 
         else if(j == 16) {
           const gps = parseFloat(this.form2.get('gps')?.value) * -1;
-          if(!this.first_time){
-            this.tableData[i]['GPS'] =  (gps)
-          } else
+
           rowObject['GPS'] = gps
         }
 
         else if(j == 17) {
           const portes = parseFloat(this.form2.get('portes')?.value) * -1;
-          if(!this.first_time){
-            this.tableData[i]['Portes'] =  (portes)
-          } else
+
           rowObject['Portes'] = portes
         }
 
         else if(j == 18) {
-          const gastosAdministrativos = parseFloat(this.form2.get('gastosAdministrativos')?.value) * -1;
-          if(!this.first_time){
-            this.tableData[i]['Gastos Administrativos'] =  (gastosAdministrativos)
-          } else
-          rowObject['Gastos Administrativos'] = gastosAdministrativos
+
+          const plazo = parseInt(this.form.get('plazo')?.value);
+          if(i <= plazo){
+            if(rowObject['P.G'] == 'T' || rowObject['P.G'] == 'P'){
+              rowObject['Amortización'] =(0)
+            }
+            else{
+              const cuota = parseFloat(rowObject['Cuota']).toFixed(2);
+              const intereses = parseFloat(rowObject['Intereses']).toFixed(2);
+              const seguroDegravamen = parseFloat(rowObject['Seguro Degravamen']).toFixed(2);
+              const seguroDegravamenCuotaFinal = parseFloat(rowObject['Seguro Degravamen Cuota Final']).toFixed(2);
+              const seguroVehicular = parseFloat(rowObject['Seguro Vehicular']).toFixed(2);
+              const gps = parseFloat(rowObject['GPS']).toFixed(2);
+              const portes = parseFloat(rowObject['Portes']).toFixed(2);
+              const gastosAdministrativos = parseFloat(rowObject['Gastos Administrativos']).toFixed(2);
+
+              rowObject['Amortización'] =   parseFloat(cuota) - parseFloat(intereses) - parseFloat(seguroDegravamen) - parseFloat(seguroDegravamenCuotaFinal) - parseFloat(seguroVehicular) - parseFloat(gps) - parseFloat(portes) - parseFloat(gastosAdministrativos)
+            }
+          }
+              else{
+                rowObject['Amortización'] = 0;
+              }
         }
 
+
+        //bad code
         else if (j == 19){
-          if(!this.first_time){
-            if(this.tableData[i]['P.G'] == 'T'){
-              if(!this.first_time){
-                this.tableData[i]['Saldo Final Para Cuota'] = (parseFloat(this.tableData[i]['Saldo Inicial Para Cuota']) - parseFloat(this.tableData[i]['Intereses'])).toFixed(5)
-              } else  {
-                rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) - parseFloat(rowObject['Intereses'])).toFixed(5)
-              }
+
+            // if(this.tableData[i]['P.G'] == 'T'){
+            //   if(!this.first_time){
+            //     this.tableData[i]['Saldo Final Para Cuota'] = (parseFloat(this.tableData[i]['Saldo Inicial Para Cuota']) - parseFloat(this.tableData[i]['Intereses'])).toFixed(5)
+            //   } else  {
+            //     rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) - parseFloat(rowObject['Intereses'])).toFixed(5)
+            //   }
+            // }
+            // else{
+            //   if(!this.first_time){
+            //     this.tableData[i]['Saldo Final Para Cuota'] = (parseFloat(this.tableData[i]['Saldo Inicial Para Cuota']) + parseFloat(this.tableData[i]['Amortización'])).toFixed(5)
+            //   } else{
+            //     rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) + parseFloat(rowObject['Amortización'])).toFixed(5)
+            //   }
+            // }
+
+
+            if(rowObject['P.G'] == 'T'){
+                rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) - parseFloat(rowObject['Intereses']))
             }
             else{
-              if(!this.first_time){
-                this.tableData[i]['Saldo Final Para Cuota'] = (parseFloat(this.tableData[i]['Saldo Inicial Para Cuota']) + parseFloat(this.tableData[i]['Amortización'])).toFixed(5)
-              } else{
-                rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) + parseFloat(rowObject['Amortización'])).toFixed(5)
-              }
+              const saldoInicialParaCuota = (parseFloat(rowObject['Saldo Inicial Para Cuota'])).toFixed(2);
+              const amortizacion = (parseFloat(rowObject['Amortización'])).toFixed(2);
+              rowObject['Saldo Final Para Cuota'] = (parseFloat(saldoInicialParaCuota) + parseFloat(amortizacion))
             }
+
+
+
+        }
+
+        else if(j == 20) {
+          const cuota = parseFloat(rowObject['Cuota']).toFixed(2);
+          const amortizacionCuotaFinal = parseFloat(rowObject['Amortización Cuota Final']).toFixed(2);
+
+          if(rowObject['P.G'] == 'T' || rowObject['P.G'] == 'P'){
+            const seguroDegravamen = parseFloat(rowObject['Seguro Degravamen']).toFixed(2)
+            const seguroDeGravamenCuotaFinal = parseFloat(rowObject['Seguro Degravamen Cuota Final']).toFixed(2)
+            const seguroVehicular = parseFloat(rowObject['Seguro Vehicular']).toFixed(2)
+            rowObject['Flujo'] = parseFloat(cuota) + parseFloat(amortizacionCuotaFinal) + parseFloat(seguroDegravamen) + parseFloat(seguroDeGravamenCuotaFinal) + parseFloat(seguroVehicular)
           }
           else{
-            if(rowObject['P.G'] == 'T'){
-              if(!this.first_time){
-                this.tableData[i]['Saldo Final Para Cuota'] = (parseFloat(this.tableData[i]['Saldo Inicial Para Cuota']) - parseFloat(this.tableData[i]['Intereses']))
-              } else  {
-                rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) - parseFloat(rowObject['Intereses']))
-              }
-            }
-            else{
-              if(!this.first_time){
-                this.tableData[i]['Saldo Final Para Cuota'] = (parseFloat(this.tableData[i]['Saldo Inicial Para Cuota']) + parseFloat(this.tableData[i]['Amortización']))
-              } else{
-                rowObject['Saldo Final Para Cuota'] = (parseFloat(rowObject['Saldo Inicial Para Cuota']) + parseFloat(rowObject['Amortización']))
-              }
-            }
+            rowObject['Flujo'] = parseFloat(cuota) + parseFloat(amortizacionCuotaFinal)
           }
-
-
         }
 
       }
 
       this.tableData.push(rowObject);
-
-      if(i == 25 && this.first_time){
-        this.dataSource[6].value = this.calculateSaldoCapitalizado();
-        this.dataSource[7].value = this.calculateRCuotasMensuales();
-        i = 0;
-        this.first_time = false;
-      }
-
     }
 
+    this.dataSource[8].value = this.calculateValorActualSaldoFinal().toString()
 
-
-
-
-
+    this.dataSourceTotales[0].value = this.calculateIntereses().toString()
+    this.dataSourceTotales[1].value = this.calculateAmortizaciondelCapital().toString()
+    this.dataSourceTotales[2].value = this.calculateSeguroDeGravamen().toString()
+    this.dataSourceTotales[3].value = this.calculateSeguroVehicular().toString()
+    this.dataSourceTotales[4].value = this.calculateGPS().toString()
+    this.dataSourceTotales[5].value = this.calculatePortes().toString()
+    this.dataSourceTotales[6].value = this.calculateGastosAdministrativos().toString()
 
 
     console.log(this.tableData)
@@ -610,4 +611,84 @@ export class AddDataTableComponent implements OnInit{
     const plazo = parseFloat(this.form.get('plazo')?.value);
     return (saldoCapitalizado*(tem*(1+tem)**plazo)/(((1+tem)**plazo)-1)).toFixed(4)
   }
+
+  calculateValorActualSaldoFinal(){
+    const SaldoFinalParaCuota = parseFloat(this.tableData[this.tableData.length-2]['Saldo Final Para Cuota']);
+    const tem = parseFloat(this.dataSource[1].value)/100;
+
+    let count = 0;
+    for (let i = 0; i < this.tableData.length; i++) {
+      if(this.tableData[i]['P.G'] == 'S'){
+        count++;
+      }
+    }
+    return (SaldoFinalParaCuota/((1+tem)**(count-1))).toFixed(4)
+  }
+
+  calculateIntereses(){
+    let suma_cuota = 0, suma_seguro_degravamen = 0, suma_amortzacion = 0;
+
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_cuota += parseFloat(this.tableData[i]['Cuota']);
+      suma_seguro_degravamen += parseFloat(this.tableData[i]['Seguro Degravamen']);
+      suma_amortzacion += parseFloat(this.tableData[i]['Amortización']);
+    }
+
+    return ((suma_cuota - suma_seguro_degravamen - suma_amortzacion)*-1).toFixed(2)
+  }
+
+  calculateAmortizaciondelCapital(){
+    let suma_amortizacion = 0, suma_amortizacion_cuota_final = 0;
+
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_amortizacion += parseFloat(this.tableData[i]['Amortización']);
+      suma_amortizacion_cuota_final += parseFloat(this.tableData[i]['Amortización Cuota Final']);
+    }
+
+    return (suma_amortizacion*-1 - suma_amortizacion_cuota_final).toFixed(2)
+  }
+
+  calculateSeguroDeGravamen(){
+    let suma_seguro_degravamen = 0;
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_seguro_degravamen += parseFloat(this.tableData[i]['Seguro Degravamen']);
+    }
+    return (suma_seguro_degravamen*-1).toFixed(2)
+  }
+
+  calculateSeguroVehicular(){
+    let suma_seguro_vehicular = 0;
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_seguro_vehicular += parseFloat(this.tableData[i]['Seguro Vehicular']);
+    }
+    return (suma_seguro_vehicular*-1).toFixed(2)
+  }
+
+  calculateGPS(){
+    let suma_gps = 0;
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_gps += parseFloat(this.tableData[i]['GPS']);
+    }
+    return (suma_gps*-1).toFixed(2)
+  }
+
+  calculatePortes(){
+    let suma_portes = 0;
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_portes += parseFloat(this.tableData[i]['Portes']);
+    }
+    return (suma_portes*-1).toFixed(2)
+  }
+
+  calculateGastosAdministrativos(){
+    let suma_gastos_administrativos = 0;
+    for (let i = 1; i < this.tableData.length; i++) {
+      suma_gastos_administrativos += parseFloat(this.tableData[i]['Gastos Administrativos']);
+    }
+    return (suma_gastos_administrativos*-1).toFixed(2)
+  }
+
+
+  protected readonly Math = Math;
+  protected readonly parseFloat = parseFloat;
 }
