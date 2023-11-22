@@ -6,6 +6,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
 import { Decimal } from 'decimal.js';
+import {ActivatedRoute} from "@angular/router";
 
 export interface PeriodicElement {
   title: string;
@@ -67,7 +68,11 @@ export class AddDataTableComponent implements OnInit{
   form: FormGroup = new FormGroup({ });
   form2: FormGroup = new FormGroup({ });
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private route: ActivatedRoute) {
+
+
+
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -137,6 +142,12 @@ export class AddDataTableComponent implements OnInit{
     })
 
     this.form2.valueChanges.subscribe(()=>{
+    })
+
+    this.route.params.subscribe( params => {
+      console.log(params)
+      const priceCar = +params['precio']
+      this.form.get('precioVehicular')?.setValue(priceCar);
     })
   }
 
