@@ -19,8 +19,12 @@ export class CarsListComponent implements OnInit{
 
   getCarList() {
     this.carService.getCars().subscribe(
-      (data: Cars[]) => {
-        this.cars = data;
+      (response: any) => {
+        if (response && response.content && Array.isArray(response.content)) {
+          this.cars = response.content;
+        } else {
+          console.error('Error: Estructura inesperada de la respuesta del servidor');
+        }
       },
       (error) => {
         console.error('Error fetching car list:', error);
