@@ -29,6 +29,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {MatTableModule} from "@angular/material/table";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
     FontAwesomeModule,
     MatTableModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatTooltipModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent],
