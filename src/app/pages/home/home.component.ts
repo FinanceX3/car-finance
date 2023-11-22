@@ -15,27 +15,34 @@ export class HomeComponent {
 
     {
       name: 'Clara Angie Valverde Salazar',
-      photo: 'https://lh3.googleusercontent.com/a-/ALV-UjXUd2gQBhLrnEZ2dc220bEt8zBa-5p028xJbeKInaK-zQ=s48-p',
+      photo: 'https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/394179521_1001200474445669_487415513666496466_n.jpg?ccb=11-4&oh=01_AdTTjKnaY3q0ak3hIw0nOo3akw8a9Dc7fDYeNmSF-StOGg&oe=656A325D&_nc_sid=e6ed6c&_nc_cat=104',
       email: 'U20201B940',
     },
 
     {
-      name: 'Willy David Valentin Ricaldi',
-      photo: 'https://lh3.googleusercontent.com/a/ACg8ocK7K01cqCU5-XF5AV1j5tbewjHQMdmfa_r-kHbbIRcKAE4=s288-c-no',
-      email: 'U20201C037',
+      name: 'Julio Ernesto Asillo Mendoza',
+      photo: 'https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/328134807_667389938828868_2498182620187994318_n.jpg?ccb=11-4&oh=01_AdRqn7lO1j4iU6rGN7M9pOTsagzoGDS6m5fz47o3hhcAbg&oe=656A82E2&_nc_sid=e6ed6c&_nc_cat=111',
+      email: 'U20201B482',
     },
 
     {
-      name: 'Willy David Valentin Ricaldi',
-      photo: 'https://lh3.googleusercontent.com/a/ACg8ocK7K01cqCU5-XF5AV1j5tbewjHQMdmfa_r-kHbbIRcKAE4=s288-c-no',
-      email: 'U20201C037',
+      name: 'Leydi Yaquelin Mamani Aro',
+      photo: 'https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/397808620_386037860417026_941718680099797211_n.jpg?ccb=11-4&oh=01_AdT-IuZJ45jmYUVOqf05Ck5GVIAdmcIRLZssYKUPvI_S7w&oe=656A741B&_nc_sid=e6ed6c&_nc_cat=102',
+      email: 'U20201B745',
     },
 
     {
-      name: 'Willy David Valentin Ricaldi',
-      photo: 'https://lh3.googleusercontent.com/a/ACg8ocK7K01cqCU5-XF5AV1j5tbewjHQMdmfa_r-kHbbIRcKAE4=s288-c-no',
-      email: 'U20201C037',
+      name: 'Giancarlo André Román Zamora',
+      photo: 'https://lh3.googleusercontent.com/a/ACg8ocK7K01cqCU5-XF5AV1j5tbewjHQMdmfa_r-kHbbIRcKAE4=s288-c-nso',
+      email: 'U202010572',
     },
+
+    {
+      name: 'Lennin Daniel Huaman Huaranga',
+      photo: 'https://media-lim1-1.cdn.whatsapp.net/v/t61.24694-24/394170955_1340399423253177_2785711713459280749_n.jpg?ccb=11-4&oh=01_AdRMPkHAYPy10wcB33Q6uanpDe5Bmw0mktlmbaRJWTqTTw&oe=656A53C1&_nc_sid=e6ed6c&_nc_cat=101',
+      email: 'U20201B975',
+    },
+
 
   ];
 }
