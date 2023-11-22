@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'navigation/home', component: HomeComponent},
   {path: 'navigation/register', component: RegisterComponent},
   {path: 'navigation/list-cars', component: CarsListComponent},
-  {path: 'navigation/add-data-table', component: AddDataTableComponent},
+  {path: 'navigation/add-data-table/:precio', component: AddDataTableComponent},
 
 ];
 
