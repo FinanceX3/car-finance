@@ -63,8 +63,11 @@
 
           <div class="input-item">
             <mat-label style="color: #001D86">Plazo (Meses)</mat-label>
-            <mat-form-field style="border-radius: 5px;">
-              <input matInput placeholder="Ingrese dato" formControlName="plazo">
+            <mat-form-field>
+              <mat-select formControlName="plazo">
+                <mat-option value="24">24</mat-option>
+                <mat-option value="36">36</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 
@@ -106,7 +109,7 @@
           <div class="input-item">
             <mat-label style="color: #001D86">N° de días por año</mat-label>
             <mat-form-field style="border-radius: 5px;">
-              <input matInput placeholder="Ingrese dato" formControlName="nDiasAnio">
+              <input matInput placeholder="Ingrese dato" formControlName="nDiasAnio"  [readonly]="true">
             </mat-form-field>
           </div>
 
@@ -311,8 +314,8 @@
       <th style="min-width: 190px !important; border: 1px solid black;text-align: center; background-color: #ffe49c " mat-header-cell *matHeaderCellDef>
         {{ col }} </th>
       <!-- Iterar sobre las filas -->
-      <td style="min-width: 190px !important; border: 1px solid black;text-align: center; background-color: {{iteracion === 0 ? '#c4e4b4' : '' }} " mat-cell *matCellDef="let element">
-        {{ element[col] === -1 ? '' : iteracion === 1 || iteracion === 2 ? element[col] + '%' : element[col] }} </td>
+      <td style="min-width: 190px !important; border: 1px solid black;text-align: center; background-color: {{iteracion === 0 ? '#c4e4b4' : '' }} ; color: {{element[col] < 0 ? '#FF0000' : ''}}" mat-cell *matCellDef="let element">
+        {{ element[col] === -1 ? '' : (iteracion === 1 || iteracion === 2) ? (parseFloat( element[col]).toFixed(2) + '%') : (iteracion === 4 || iteracion === 3 || iteracion === 0) ? (element[col]) : (Math.abs(+element[col])).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} </td>
     </ng-container>
 
     <!-- Renderizar las filas -->
