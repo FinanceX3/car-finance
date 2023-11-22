@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Cars} from "../../models/Cars";
 import {CarsService} from "../../services/cars.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cars-list',
@@ -10,7 +11,7 @@ import {CarsService} from "../../services/cars.service";
 export class CarsListComponent implements OnInit{
   cars: Cars[] = [];
 
-  constructor(private carService: CarsService) {}
+  constructor(private carService: CarsService, private router: Router) {}
 
   ngOnInit() {
     this.getCarList();
@@ -25,5 +26,9 @@ export class CarsListComponent implements OnInit{
         console.error('Error fetching car list:', error);
       }
     );
+  }
+
+  redirectToCalculator(price: number) {
+    this.router.navigate(['navigation/add-data-table', price]);
   }
 }

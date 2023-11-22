@@ -1,0 +1,26 @@
+.developer-cards-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.developer-card {
+  width: 200px;
+  margin: 16px;
+}
+
+.developer-photo-container {
+  overflow: hidden;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
