@@ -8,7 +8,7 @@ import {catchError, Observable, retry} from "rxjs";
   providedIn: 'root'
 })
 export class CarsService {
-  basePath = environment.serverBasePath;
+  basePath = 'http://localhost:8080/api/v1';
   url: string = '/cars';
 
   private resourcePath(): string {

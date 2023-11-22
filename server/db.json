@@ -41,6 +41,13 @@
       "email": "admin@email.com",
       "password": "12345",
       "id": 6
+    },
+    {
+      "name": "Julio",
+      "lastName": "Asillo Mendoza",
+      "email": "julio@gmail.com",
+      "password": "123",
+      "id": 7
     }
   ],
   "cars": [
