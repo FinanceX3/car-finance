@@ -1,6 +1,6 @@
 <app-toolbar></app-toolbar>
 <div class="car-list-container">
-  <mat-card *ngFor="let car of cars" class="car-card">
+  <mat-card *ngFor="let car of cars" class="car-card" (click)="redirectToCalculator(car.price)">
     <img mat-card-image [src]="car.imageUrl" alt="{{ car.brand }} {{ car.model }}">
     <mat-card-header>
       <mat-card-title>{{ car.brand }} {{ car.model }}</mat-card-title>

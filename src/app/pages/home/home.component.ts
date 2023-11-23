@@ -27,13 +27,13 @@ export class HomeComponent {
 
     {
       name: 'Leydi Yaquelin Mamani Aro',
-      photo: 'https://media-lim1-1.cdn.whatsadpp.net/v/t61.24694-24/397808620_386037860417026_941718680099797211_n.jpg?ccb=11-4&oh=01_AdT-IuZJ45jmYUVOqf05Ck5GVIAdmcIRLZssYKUPvI_S7w&oe=656A741B&_nc_sid=e6ed6c&_nc_cat=102',
+      photo: 'https://i.ibb.co/2qsRRwX/Whats-App-Image-2023-11-23-at-6-27-20-AM.jpg',
       email: 'U20201B745',
     },
 
     {
       name: 'Giancarlo André Román Zamora',
-      photo: 'https://drive.google.com/file/d/1gGb9jD4mRaaAnm-CXDUP_XugFBdTnEq5',
+      photo: '',
       email: 'U202010572',
     },
 
