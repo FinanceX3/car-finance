@@ -8,7 +8,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ToolbarComponent } from './pages/toolbar/toolbar.component';
 import { FooterComponent } from './pages/footer/footer.component';
-import {MatCardModule} from "@angular/material/card";
+import { MatCardModule } from '@angular/material/card';
+
 import {UserService} from "./services/user.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HomeComponent } from './pages/home/home.component';

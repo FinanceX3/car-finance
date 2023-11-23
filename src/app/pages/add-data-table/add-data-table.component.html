@@ -32,7 +32,7 @@
 
           <div class="input-item">
             <button mat-raised-button
-                    matTooltip="Es el porcentaje de la cuota inicial a pagar para acceder al crédito vehicular"
+                    matTooltip="Es el porcentaje de la cuota inicial a pagar para acceder al crédito vehicular">
               <mat-label style="color: #001D86">Cuota Inicial (%)</mat-label>
             </button>
             <mat-form-field style="border-radius: 5px;">
@@ -53,8 +53,11 @@
 
           <div class="input-item">
             <button mat-raised-button
-                    matTooltip="La Tasa Nominal Anual se usa para calcular los pagos de interés de un préstamo o crédito.">
-              <mat-label style="color: #001D86">TNA (%)</mat-label>
+                    matTooltip="La Tasa Nominal Anual o Efectiva se usa para calcular los pagos de interés de un préstamo o crédito.">
+                  <mat-select style="color: #001D86" formControlName="tipoTasaInteres">
+                    <mat-option value="nominal">TNA (%)</mat-option>
+                    <mat-option value="efectiva">TEA (%)</mat-option>
+                  </mat-select>
             </button>
             <mat-form-field style="border-radius: 5px;">
               <input matInput placeholder="Ingrese dato" formControlName="tna">
@@ -373,6 +376,7 @@
         {{ col }} </th>
       <!-- Iterar sobre las filas -->
       <td style="min-width: 190px !important; border: 1px solid black;text-align: center; background-color: {{iteracion === 0 ? '#c4e4b4' : '' }} ; color: {{element[col] < 0 ? '#FF0000' : ''}}" mat-cell *matCellDef="let element">
+
         {{ element[col] === -1 ? '' : (iteracion === 1 || iteracion === 2) ? (parseFloat( element[col]).toFixed(2) + '%') : (iteracion === 4 || iteracion === 3 || iteracion === 0) ? (element[col]) : (Math.abs(+element[col])).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} </td>
     </ng-container>
 
@@ -384,4 +388,3 @@
 
 
 <app-footer></app-footer>
-
