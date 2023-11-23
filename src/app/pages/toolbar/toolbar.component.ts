@@ -9,7 +9,6 @@ export class ToolbarComponent {
   title = 'car-finance';
   options = [
     {path: '/navigation/home', title: 'Home'},
-    {path: '/navigation/historial', title: 'Historial'},
     {path: '/navigation/list-cars', title: 'Cars'},
     {path: '/navigation/add-data-table', title: 'Calculadora'}
   ]

@@ -88,14 +88,14 @@ export class AddDataTableComponent implements OnInit{
       seguroVehicularAnual: [4.72, Validators.required],
       //fechaContrato: [ new FormControl(_moment([2017, 0, 1])), Validators.required],//input
       plazo: ['24', Validators.required],//input
-      plazoGraciaTotal: [1, Validators.required],//input
-      plazoGraciaParcial: [2, Validators.required],//input
+      plazoGraciaTotal: [2, Validators.required],//input
+      plazoGraciaParcial: [1, Validators.required],//input
       tasaDescuentoCOK: [50, Validators.required],//input
       periodoCapitalizacion: ['Diaria', Validators.required],
       frecuenciaPago: ['30', Validators.required],
       nDiasAnio: new FormControl({ value: 360, disabled :true}),
       costesNotariales: [100, Validators.required],
-      tipoPagoCostesNotariales: ['tasa', Validators.required],
+      tipoPagoCostesNotariales: ['prestamo', Validators.required],
       costesRegistrales: [75, Validators.required],
       tipoPagoCostesRegistrales: ['prestamo', Validators.required],
       tasacion: [10, Validators.required],
@@ -501,6 +501,7 @@ export class AddDataTableComponent implements OnInit{
     }
 
     this.dataSource[8].value = this.calculateValorActualSaldoFinal().toString()
+    this.dataSource[9].value = this.calculateValorCuotaExtra().toString()
 
     this.dataSourceTotales[0].value = this.calculateIntereses().toString()
     this.dataSourceTotales[1].value = this.calculateAmortizaciondelCapital().toString()
@@ -756,6 +757,16 @@ export class AddDataTableComponent implements OnInit{
 
   calculateNPV(cashFlows: number[], rate: number): number {
     return cashFlows.reduce((acc, val, i) => acc + (val / Math.pow(1 + rate, i)), 0);
+  }
+
+  calculateValorCuotaExtra(){
+    const valorActualSaldoFinal = parseFloat(this.dataSource[8].value);
+    const tem = parseFloat(this.dataSource[1].value)/100;
+    const plazo = parseFloat(this.form.get('plazo')?.value);
+    const plazoGraciaTotal = parseFloat(this.form.get('plazoGraciaTotal')?.value);
+    const plazoGraciaParcial = parseFloat(this.form.get('plazoGraciaParcial')?.value);
+
+    return (valorActualSaldoFinal * (tem*((1+tem)**(plazo - plazoGraciaTotal - plazoGraciaParcial)))/(((1+tem)**(plazo - plazoGraciaTotal-plazoGraciaParcial  ))-1)).toFixed(3)
   }
 
   protected readonly Math = Math;
