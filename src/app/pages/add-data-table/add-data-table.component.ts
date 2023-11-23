@@ -7,6 +7,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import * as _moment from 'moment';
 import { Decimal } from 'decimal.js';
 import {ActivatedRoute} from "@angular/router";
+import {Finance} from "financejs";
 
 export interface PeriodicElement {
   title: string;
@@ -64,6 +65,7 @@ const ELEMENT_DATA_GASTOS_PERIODICOS: PeriodicElement[] = [
 })
 export class AddDataTableComponent implements OnInit{
   faUser = faUser;
+  private finance = new Finance();
 
   form: FormGroup = new FormGroup({ });
   form2: FormGroup = new FormGroup({ });
@@ -135,6 +137,7 @@ export class AddDataTableComponent implements OnInit{
       this.dataSource[3].value = this.calculateCuotaFinal().toString();
       this.dataSource[4].value = this.calculateMontoPrestamo().toString();
       this.dataSource[5].value = this.calcuateImporteParaCuotas().toString();
+      this.dataSource[7].value = this.calculateRCuotasMensuales().toString();
 
 
 
@@ -145,7 +148,6 @@ export class AddDataTableComponent implements OnInit{
     })
 
     this.route.params.subscribe( params => {
-      console.log(params)
       const priceCar = +params['precio']
       this.form.get('precioVehicular')?.setValue(priceCar);
     })
@@ -192,9 +194,11 @@ export class AddDataTableComponent implements OnInit{
     let rows = plan_meses + 2;
     let cols = 21
 
-    this.tableData = []
-    //this.tableData[0] = [-1,-1,-1, this.fechaContrato.value?.format('DD/MM/YYYY') ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, this.calculateMontoPrestamo() ];
+    let plazoGraciaTotalValueAux = parseInt(this.form.get('plazoGraciaTotal')?.value)
+    let saldoCapitalizadoAux : any = parseFloat(this.dataSource[5].value);
 
+
+    this.tableData = []
     this.tableData.push({
       'N°': -1,
       'TEA': -1,
@@ -221,6 +225,7 @@ export class AddDataTableComponent implements OnInit{
 
     for (let i = 1; i < rows; i++) {
       const rowObject: { [key: string]: any | number } = {}
+
       for (let j = 0; j < cols; j++) {
 
         if(j == 0){
@@ -479,6 +484,19 @@ export class AddDataTableComponent implements OnInit{
       }
 
       this.tableData.push(rowObject);
+
+
+
+      if(plazoGraciaTotalValueAux == 0){
+        this.dataSource[6].value = (saldoCapitalizadoAux).toFixed(3)
+        this.dataSource[7].value = this.calculateRCuotasMensuales().toString()
+      } else {
+        saldoCapitalizadoAux = parseFloat(this.tableData[i]['Saldo Final Para Cuota'])
+      }
+
+      if(this.tableData[i]['P.G'] == 'T'){
+        plazoGraciaTotalValueAux--;
+      }
     }
 
     this.dataSource[8].value = this.calculateValorActualSaldoFinal().toString()
@@ -492,8 +510,17 @@ export class AddDataTableComponent implements OnInit{
     this.dataSourceTotales[6].value = this.calculateGastosAdministrativos().toString()
 
 
+    this.dataSourceIndicadoresRentabilidad[3].value = this.calculateVAN().toString()
+
     console.log(this.tableData)
 
+
+    const flujos = [28205.00, 151.76, 348.05, 348.13, 775.96, 775.96, 775.96, 775.96, 775.96, 775.96,
+      775.96, 775.96, 775.96, 775.96, 775.96, 775.96, 775.96, 775.96, 775.96, 775.96,
+      775.96, 775.96, 775.96, 775.96, 775.96, 775.96, 17500.00];
+
+   // const tir = this.calculateIRR(flujos);
+   // console.log(`La TIR encontrada es: ${tir.toFixed(6)}`);
 
   }
 
@@ -526,7 +553,7 @@ export class AddDataTableComponent implements OnInit{
        this.form.get('seguroVehicularAnual')?.value == '') { return 0 }
     let seguroVA = parseFloat(this.form.get('seguroVehicularAnual')?.value);
     seguroVA = seguroVA/100;
-    return Number((((seguroVA*30)/360)*100).toFixed(4))
+    return Number((((seguroVA*30)/360)*100).toFixed(3))
   }
 
   calculateCuotaInicial(){
@@ -537,7 +564,7 @@ export class AddDataTableComponent implements OnInit{
 
     let precioVehicular = parseFloat(this.form.get('precioVehicular')?.value);
     let cuotaInicial = parseFloat(this.form.get('cuotaInicial')?.value);
-    return (precioVehicular * (cuotaInicial/100)).toFixed(4)
+    return (precioVehicular * (cuotaInicial/100)).toFixed(3)
   }
 
   calculateCuotaFinal(){
@@ -547,7 +574,7 @@ export class AddDataTableComponent implements OnInit{
       this.form.get('cuotaFinal')?.value == '' ) { return 0 }
   let precioVehicular = parseFloat(this.form.get('precioVehicular')?.value);
   let cuotaFinal = parseFloat(this.form.get('cuotaFinal')?.value);
-  return (precioVehicular * (cuotaFinal/100)).toFixed(4)
+  return (precioVehicular * (cuotaFinal/100)).toFixed(3)
   }
 
   calculateMontoPrestamo(){
@@ -573,7 +600,7 @@ export class AddDataTableComponent implements OnInit{
     if(this.form.get('comisionActivacion')?.value != null && this.form.get('comisionActivacion')?.value != '' && this.form.get('tipoPagoComisionActivacion')?.value == 'prestamo'){
       res = res + parseFloat(this.form.get('comisionActivacion')?.value)
     }
-    return (res).toFixed(4)
+    return (res).toFixed(3)
   }
 
 
@@ -582,7 +609,7 @@ export class AddDataTableComponent implements OnInit{
     if(this.form.get('tasaDescuentoCOK')?.value == null ||
       this.form.get('tasaDescuentoCOK')?.value == '') { return 0 }
     let tasaDescuentoCOK = parseFloat(this.form.get('tasaDescuentoCOK')?.value)/100;
-    return (((1+tasaDescuentoCOK)**(30/360)-1)*100).toFixed(4)
+    return (((1+tasaDescuentoCOK)**(30/360)-1)*100).toFixed(5)
   }
 
   calcuateImporteParaCuotas(){
@@ -591,7 +618,7 @@ export class AddDataTableComponent implements OnInit{
     const tem = parseFloat(this.dataSource[1].value)/100;
     const plazo = parseFloat(this.form.get('plazo')?.value);
 
-    return (montoPrestamo - (cuotaFinal/((1+tem)**(plazo + 1)))).toFixed(4)
+    return (montoPrestamo - (cuotaFinal/((1+tem)**(plazo + 1)))).toFixed(3)
   }
 
   calculateSaldoCapitalizado(){
@@ -601,7 +628,6 @@ export class AddDataTableComponent implements OnInit{
         cont++;
       }
     }
-    console.log(cont,this.tableData[cont]['Saldo Inicial Para Cuota'].value)
     return this.tableData[cont]['Saldo Inicial Para Cuota']
   }
 
@@ -609,7 +635,7 @@ export class AddDataTableComponent implements OnInit{
     const saldoCapitalizado = parseFloat(this.dataSource[6].value);
     const tem = parseFloat(this.dataSource[1].value)/100;
     const plazo = parseFloat(this.form.get('plazo')?.value);
-    return (saldoCapitalizado*(tem*(1+tem)**plazo)/(((1+tem)**plazo)-1)).toFixed(4)
+    return (saldoCapitalizado*(tem*((1+tem)**plazo))/(((1+tem)**plazo)-1)).toFixed(3)
   }
 
   calculateValorActualSaldoFinal(){
@@ -622,7 +648,7 @@ export class AddDataTableComponent implements OnInit{
         count++;
       }
     }
-    return (SaldoFinalParaCuota/((1+tem)**(count-1))).toFixed(4)
+    return (SaldoFinalParaCuota/((1+tem)**(count-1))).toFixed(3)
   }
 
   calculateIntereses(){
@@ -634,7 +660,7 @@ export class AddDataTableComponent implements OnInit{
       suma_amortzacion += parseFloat(this.tableData[i]['Amortización']);
     }
 
-    return ((suma_cuota - suma_seguro_degravamen - suma_amortzacion)*-1).toFixed(2)
+    return ((suma_cuota - suma_seguro_degravamen - suma_amortzacion)*-1).toFixed(3)
   }
 
   calculateAmortizaciondelCapital(){
@@ -645,7 +671,7 @@ export class AddDataTableComponent implements OnInit{
       suma_amortizacion_cuota_final += parseFloat(this.tableData[i]['Amortización Cuota Final']);
     }
 
-    return (suma_amortizacion*-1 - suma_amortizacion_cuota_final).toFixed(2)
+    return (suma_amortizacion*-1 - suma_amortizacion_cuota_final).toFixed(3)
   }
 
   calculateSeguroDeGravamen(){
@@ -653,7 +679,7 @@ export class AddDataTableComponent implements OnInit{
     for (let i = 1; i < this.tableData.length; i++) {
       suma_seguro_degravamen += parseFloat(this.tableData[i]['Seguro Degravamen']);
     }
-    return (suma_seguro_degravamen*-1).toFixed(2)
+    return (suma_seguro_degravamen*-1).toFixed(3)
   }
 
   calculateSeguroVehicular(){
@@ -661,7 +687,7 @@ export class AddDataTableComponent implements OnInit{
     for (let i = 1; i < this.tableData.length; i++) {
       suma_seguro_vehicular += parseFloat(this.tableData[i]['Seguro Vehicular']);
     }
-    return (suma_seguro_vehicular*-1).toFixed(2)
+    return (suma_seguro_vehicular*-1).toFixed(3)
   }
 
   calculateGPS(){
@@ -669,7 +695,7 @@ export class AddDataTableComponent implements OnInit{
     for (let i = 1; i < this.tableData.length; i++) {
       suma_gps += parseFloat(this.tableData[i]['GPS']);
     }
-    return (suma_gps*-1).toFixed(2)
+    return (suma_gps*-1).toFixed(3)
   }
 
   calculatePortes(){
@@ -677,7 +703,7 @@ export class AddDataTableComponent implements OnInit{
     for (let i = 1; i < this.tableData.length; i++) {
       suma_portes += parseFloat(this.tableData[i]['Portes']);
     }
-    return (suma_portes*-1).toFixed(2)
+    return (suma_portes*-1).toFixed(3)
   }
 
   calculateGastosAdministrativos(){
@@ -685,9 +711,51 @@ export class AddDataTableComponent implements OnInit{
     for (let i = 1; i < this.tableData.length; i++) {
       suma_gastos_administrativos += parseFloat(this.tableData[i]['Gastos Administrativos']);
     }
-    return (suma_gastos_administrativos*-1).toFixed(2)
+    return (suma_gastos_administrativos*-1).toFixed(3)
   }
 
+  calculateVAN(){
+    const montoPrestamo = parseFloat(this.dataSource[4].value);
+    const tasaDescuento = parseFloat(this.dataSourceIndicadoresRentabilidad[0].value)/100;
+    let suma = 0;
+
+
+
+    for (let i = 0; i < this.tableData.length; i++) {
+      suma += ((parseFloat(this.tableData[i]['Flujo']))/((1+tasaDescuento)**(i)));
+    }
+
+
+    return  suma.toFixed(3);
+  }
+
+  calculateIRR(cashFlows: number[], guess: number = 0.1, tolerance: number = 0.000001, maxIterations: number = 1000): number {
+    let lowerBound = -1 + tolerance;
+    let upperBound = 1;
+    let irr = guess;
+
+    for (let i = 0; i < maxIterations; i++) {
+      const npv = this.calculateNPV(cashFlows, irr);
+      if (Math.abs(npv) <= tolerance) {
+        return irr;
+      }
+
+      const npvLower = this.calculateNPV(cashFlows, lowerBound);
+      if (npvLower * npv > 0) {
+        lowerBound = irr;
+      } else {
+        upperBound = irr;
+      }
+
+      irr = (lowerBound + upperBound) / 2;
+    }
+
+    throw new Error('No se encontró la TIR con el número máximo de iteraciones');
+  }
+
+  calculateNPV(cashFlows: number[], rate: number): number {
+    return cashFlows.reduce((acc, val, i) => acc + (val / Math.pow(1 + rate, i)), 0);
+  }
 
   protected readonly Math = Math;
   protected readonly parseFloat = parseFloat;
