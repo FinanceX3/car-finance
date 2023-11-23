@@ -37,16 +37,32 @@ export class UserService{
       .pipe(retry(2), catchError(this.handleError))
   }
 
-  login(email:string, password:string){
-    this.getAllUsers().subscribe((resource:any)=>{
-      const user = resource.find((u:Users)=>u.email === email && u.password === password )
-      if(user){
-        alert("Welcome")
-        this.router.navigate(["navigation/home"])
-        return
+  async login(email:string, password:string){
+
+    const url = `http://localhost:8080/api/v1/users/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        console.error(`Error en la solicitud: ${response.status}`);
+
+        return null;
       }
-      alert("Invalid Credentials")
-    })
+
+      const data = await response.json();
+      console.log('Usuario autenticado:', data);
+      this.router.navigate(["navigation/home"])
+      return data;
+    } catch (error) {
+      console.error('Error durante la solicitud:', error);
+      return null;
+    }
+
+
+
   }
 
 
