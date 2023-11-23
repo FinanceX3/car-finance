@@ -82,6 +82,7 @@ export class AddDataTableComponent implements OnInit{
       precioVehicular: [35000, Validators.required],//input
       cuotaInicial: [20, Validators.required],
       cuotaFinal: [50, Validators.required],
+      tipoTasaInteres: ['nominal', Validators.required],
       tna: [15, Validators.required],//input
       seguroDegravamen: [0.05, Validators.required],
       seguroVehicularAnual: [4.72, Validators.required],
@@ -94,7 +95,7 @@ export class AddDataTableComponent implements OnInit{
       frecuenciaPago: ['30', Validators.required],
       nDiasAnio: new FormControl({ value: 360, disabled :true}),
       costesNotariales: [100, Validators.required],
-      tipoPagoCostesNotariales: ['prestamo', Validators.required],
+      tipoPagoCostesNotariales: ['tasa', Validators.required],
       costesRegistrales: [75, Validators.required],
       tipoPagoCostesRegistrales: ['prestamo', Validators.required],
       tasacion: [10, Validators.required],
@@ -531,14 +532,14 @@ export class AddDataTableComponent implements OnInit{
     return row + col;
   }
 
-
-
   calculateTEA() {
     if(this.form.get('tna')?.value == null ||
       this.form.get('tna')?.value == '') { return 0 }
     let tna = parseFloat(this.form.get('tna')?.value);
-    tna = tna/100;
-    tna = (((1+(tna/360))**360)-1)*100
+    if(this.form.get('tipoTasaInteres')?.value == "nominal") {
+      tna = tna/100;
+      tna = (((1+(tna/360))**360)-1)*100
+    }
     return tna.toFixed(7)
   }
 
